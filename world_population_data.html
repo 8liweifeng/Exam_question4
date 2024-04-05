@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>World Population Data</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+    </style>
+</head>
+
+
+<body>
+    <h1>World Population Data</h1>
+    <div class="step1">
+        <h2>The country name and its population density</h2>
+        <!-- this is a table used to display the country's information -->
+        <table class="countryTable">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Population Density (per km2)</th>
+                </tr>
+            </thead>
+
+            <tbody id="content"></tbody>
+        </table>
+    </div>
+
+
+
+
+    <div class="step2">
+        <h2>The mean, median and standard deviation of the population density</h2>
+        <p>Mean Population Density: <span id="mean"></span></p>
+        <p>Median Population Density: <span id="median"></span></p>
+        <p>Standard Deviation of Population Density: <span id="standardDeviation"></span></p>
+    </div>
+
+
+
+
+    <div class="step3">
+        <h2>Summary of Countries</h2>
+        <ul>
+            <li>Number of UN Member Countries: <span id="un"></span></li>
+            <li>Number of Countries Using the Euro: <span id="euro"></span></li>
+        </ul>
+    </div>
+
+    <script>
+        
+
+        // this is used to add rows to table in step1
+        const addRow = (country, density) => {
+            // find the table first
+            const table  = document.getElementById("content");
+            const newRow = table.insertRow(-1);
+            newRow.insertCell(0).appendChild(document.createTextNode(country));
+            newRow.insertCell(1).appendChild(document.createTextNode(density));
+        }
+
+
+        fetch("https://restcountries.com/v3.1/all")
+            .then(response => response.json())
+            .then(data => {
+                
+                data.forEach(country => {
+                    const name = country.name.official;
+                    // from the dataset, the density should be caculated using population and area
+                    const population = country.population;
+                    const area = country.area;
+                    const density = population/area;
+                    addRow(name,density)
+                })
+            }
+            )
+    </script>
+</body>
+
+</html>
