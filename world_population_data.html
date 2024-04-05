@@ -99,6 +99,9 @@
             .then(data => {
                 let denArray = [];
 
+                // step3
+                let unCount = 0;
+                let euroCount = 0;
 
                 data.forEach(country => {
                     const name = country.name.official;
@@ -108,13 +111,29 @@
                     const density = population/area;
                     denArray.push(density);
                     addRow(name,density)
+
+                    //step3
+                    const unM = country.unMember; // return true/false;
+                    const currencies = country.currencies; //list of all con
+
+                    if (unM==true) {
+                        unCount++;
+                    }
+
+                    if (currencies) {
+                        for (let key in currencies) {
+                            if (key=="EUR") {
+                                euroCount++;
+                                break;
+                            }
+                        }
+                    }
                 });
 
 
                
                 //step2, display the mean, median, sd
                 const meanD = calculateMean(denArray);
-                console.log(meanD)
                 document.getElementById("mean").textContent = meanD;
 
                 const medianD = calculateMedian(denArray);
@@ -122,6 +141,10 @@
 
                 const standardDeviationD = calculateStandardDeviation(denArray);
                 document.getElementById("standardDeviation").textContent = standardDeviationD;
+
+                //step3, display numbers
+                document.getElementById("un").textContent = unCount;
+                document.getElementById("euro").textContent = euroCount;
 
             }
             );
