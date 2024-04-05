@@ -61,21 +61,79 @@
             newRow.insertCell(1).appendChild(document.createTextNode(density));
         }
 
+        // for step2, we should calcuate based on density, the density should be stored
+        // calcuate the mean
+        const calculateMean = (array) => {
+            let res = 0;
+            for (let i=0; i<array.length; i++) {
+                res = res + array[i];
+            }
+            return res/array.length;
+        }
+
+        // calcuate the median
+        const calculateMedian = (array) => {
+            let sortedArray = [...array].sort((a,b) => a-b);
+            let len = array.length;
+            let mid = Math.floor(len/2);
+            let res;
+            if (len%2==1) {
+                res = sortedArray[mid];
+            } else {
+                res = (sortedArray[mid]+sortedArray[mid-1])/2;
+            }
+            return res;
+        }
+        // cal standard deviation
+        const calculateStandardDeviation = (array) => {
+            let mean = calculateMean(array);
+            let res = 0;
+            for (let i=0; i<array.length; i++) {
+                res = res + Math.pow((array[i]-mean), 2);
+            }
+            return Math.sqrt(res/array.length);
+        }
 
         fetch("https://restcountries.com/v3.1/all")
             .then(response => response.json())
             .then(data => {
-                
+                let denArray = [];
+
+
                 data.forEach(country => {
                     const name = country.name.official;
                     // from the dataset, the density should be caculated using population and area
                     const population = country.population;
                     const area = country.area;
                     const density = population/area;
+                    denArray.push(density);
                     addRow(name,density)
-                })
+                });
+
+
+               
+                //step2, display the mean, median, sd
+                const meanD = calculateMean(denArray);
+                console.log(meanD)
+                document.getElementById("mean").textContent = meanD;
+
+                const medianD = calculateMedian(denArray);
+                document.getElementById("median").textContent = medianD;
+
+                const standardDeviationD = calculateStandardDeviation(denArray);
+                document.getElementById("standardDeviation").textContent = standardDeviationD;
+
             }
-            )
+            );
+
+        
+            
+
+
+
+
+
+
     </script>
 </body>
 
