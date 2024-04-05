@@ -1,0 +1,26 @@
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+.step1 {
+    background-color: aquamarine;
+}
+
+.step2 {
+    background-color: turquoise;
+}
+
+.step3 {
+    background-color: chartreuse;
+}
+
+table, th, td {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+table {
+    margin: auto;
+}  
